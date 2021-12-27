@@ -152,6 +152,11 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (7.0.0)
       actionpack (= 7.0.0)
       activesupport (= 7.0.0)
@@ -218,6 +223,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.0.rc1)
   rails-controller-testing
+  rails_12factor
   selenium-webdriver (>= 4.0.0)
   sprockets-rails (>= 3.4.1)
   stimulus-rails (>= 0.7.3)

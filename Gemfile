@@ -68,6 +68,14 @@ group :development do
   # gem "spring"
 end
 
+group :production do
+  # Use postgresql as the database for Active Record
+  gem "pg", "~> 1.1"
+  gem 'rails_12factor'
+  #Use the Puma web server [https://github.com/puma/puma]
+  gem "puma", "~> 5.0"
+end
+
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara", ">= 3.26"
