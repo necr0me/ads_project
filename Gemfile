@@ -5,6 +5,11 @@ ruby "3.0.3"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.0.rc1"
+gem "faker"
+
+# Pagination
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails", ">= 3.4.1"

@@ -10,6 +10,10 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  def current_user?(user)
+    user == current_user
+  end
+
   # Возвращает текущего вошедшего пользователя (если есть).
   def current_user
     if (user_id = session[:user_id])
@@ -42,6 +46,17 @@ module SessionsHelper
     forget(current_user)
     session.delete(:user_id)
     @current_user = nil
+  end
+
+  # Перенаправляет к сохраненному расположению (или по умолчанию).
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  # Сохраняет запрошенный URL.
+  def store_location
+    session[:forwarding_url] = request.url if request.get?
   end
 
 end

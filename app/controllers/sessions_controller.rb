@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       # Осуществить вход пользователя и перенаправление на страницу профиля.
       log_in user
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_to user
+      redirect_back_or user
     else
       # Выдать сообщение об ошибке.
       flash.now[:danger] = 'Invalid email/password combination' # Не совсем верно!
