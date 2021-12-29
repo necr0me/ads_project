@@ -172,8 +172,13 @@ input {
   height: auto !important;
 }
 
-#signup_accept, #login_accept, #edit_accept{
+
+.btn-primary
+{
   background-color: #327D4B;
+  &:hover{
+    background-color: #28663B;
+  }
 }
 
 #error_explanation {

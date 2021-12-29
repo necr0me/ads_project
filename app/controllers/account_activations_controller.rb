@@ -1,4 +1,4 @@
-class AccountActivationController < ApplicationController
+class AccountActivationsController < ApplicationController
 
   def edit
     user = User.find_by(email: params[:email])
@@ -12,4 +12,5 @@ class AccountActivationController < ApplicationController
       redirect_to root_url
     end
   end
+
 end
