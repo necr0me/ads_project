@@ -7,6 +7,10 @@ ruby "3.0.3"
 gem "rails", "~> 7.0.0.rc1"
 gem "faker"
 
+gem "carrierwave"
+gem "mini_magick"
+gem "fog"
+
 # Pagination
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
