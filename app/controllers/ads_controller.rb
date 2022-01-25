@@ -29,4 +29,10 @@ class AdsController < ApplicationController
       @ad = current_user.ads.find_by(id: params[:id])
       redirect_to root_url if @ad.nil?
     end
+
+  def picture_size
+    if picture.size > 5.megabytes
+      errors.add(:picture, "should be less than 5MB")
+    end
+  end
 end
