@@ -26,8 +26,9 @@ User.create!(name: "Example user",
                activated_at: Time.zone.now)
 end
 
-users = User.order(:created_at).take(6)
-50.times do
-  content = Faker::Lorem.sentence(5)
-  users.each {|user| user.ads.create!(content: content)}
-end
+#users = User.order(:created_at).take(6)
+#50.times do
+#  name = Faker::Sports::Football.player
+#  content = Faker::ChuckNorris.fact
+#  users.each {|user| user.ads.create!(name: name, content: content)}
+#end

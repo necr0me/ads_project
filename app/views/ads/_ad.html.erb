@@ -1,9 +1,12 @@
 <li id="ad-<%= ad.id %>">
   <%= link_to gravatar_for(ad.user), ad.user %>
   <span class="user"><%= link_to ad.user.name, ad.user %></span>
-  <span class="content">
-    <%= ad.content %>
-    <%= image_tag ad.picture.url if ad.picture? %>
+  <span class="content"><%= ad.name %></span>
+  <span class="content"><%= ad.content %></span>
+  <span>
+  <% ad.pictures.each do |pic| %>
+    <%= image_tag pic.thumb.url %>
+  <% end %>
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(ad.created_at) %> ago.

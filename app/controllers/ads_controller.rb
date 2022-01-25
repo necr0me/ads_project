@@ -2,6 +2,10 @@ class AdsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user,   only: :destroy
 
+  def new
+    @ad = Ad.new
+  end
+
   def create
     @ad = current_user.ads.build(ad_params)
     if @ad.save
@@ -22,7 +26,7 @@ class AdsController < ApplicationController
   private
 
     def ad_params
-      params.require(:ad).permit(:content, :picture)
+      params.require(:ad).permit(:name, :content, pictures: [])
     end
 
     def correct_user
@@ -30,9 +34,4 @@ class AdsController < ApplicationController
       redirect_to root_url if @ad.nil?
     end
 
-  def picture_size
-    if picture.size > 5.megabytes
-      errors.add(:picture, "should be less than 5MB")
-    end
-  end
 end

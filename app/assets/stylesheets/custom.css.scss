@@ -270,3 +270,34 @@ span.picture {
   }
 }
 
+.image-box {
+  text-align: center;
+  font-size: 18px;
+  margin: auto;
+  width: auto;
+  height: auto;
+}
+
+.thumb {
+  width: 90px;
+  height: 90px;
+  margin: 0.2em -0.7em 3 0;
+
+}
+
+.remove_img_preview {
+  position: relative;
+  top: -25 px;
+  right: 5px;
+  background: black;
+  color: white;
+  border-radius: 50px;
+  font-size: 0.9em;
+  padding: 0 0.3em 0;
+  text-align: center;
+  cursor: pointer;
+
+  &:before {
+    content: "×";
+  }
+}

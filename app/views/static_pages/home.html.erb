@@ -5,11 +5,11 @@
         <%= render 'shared/user_info' %>
       </section>
       <section class="ad_form">
-        <%= render 'shared/ad_form' %>
+        <%= button_to "Create Ad", new_ad_path, method: :get, class: "btn btn-primary", style: "justify-content: center"%>
       </section>
     </aside>
     <div class="col-md-8">
-      <h3>Ad Feed</h3>
+      <h3>Ads</h3>
       <%= render 'shared/feed' %>
     </div>
   </div>
