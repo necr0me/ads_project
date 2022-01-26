@@ -8,11 +8,12 @@ class AdsController < ApplicationController
 
   def create
     @ad = current_user.ads.build(ad_params)
+    @ad.status = :draft
     if @ad.save
       flash[:success] = "Ad created!"
       redirect_to root_url
     else
-      @feed_items = []
+      puts @ad.errors.full_messages
       render 'static_pages/home'
     end
   end
@@ -23,10 +24,19 @@ class AdsController < ApplicationController
     redirect_to request.referrer || root_url
   end
 
+  def edit
+
+  end
+
+  def update
+    @ad = Ad.find(params[:id])
+    @ad.update(params[:ad])
+  end
+
   private
 
     def ad_params
-      params.require(:ad).permit(:name, :content, pictures: [])
+      params.require(:ad).permit(:name, :status, :content, pictures: [])
     end
 
     def correct_user

@@ -176,8 +176,17 @@ input {
 .btn-primary
 {
   background-color: #327D4B;
-  &:hover{
-    background-color: #28663B;
+  &:hover, &:active:focus {
+    background-color: #28663B !important;
+  }
+
+}
+
+.btn-danger
+{
+  background-color: #dc3545;
+  &:hover, &:active:focus{
+    background-color: #9C0000 !important;
   }
 }
 
@@ -188,6 +197,8 @@ input {
     margin: 0 0 30px 0;
   }
 }
+
+
 
 .field_with_errors {
   @extend .has-error;
@@ -238,7 +249,6 @@ input {
   }
   .content {
     display: block;
-    margin-left: 60px;
     img {
       display: block;
       padding: 5px 0;
@@ -247,7 +257,6 @@ input {
   .timestamp {
     color: $gray-light;
     display: block;
-    margin-left: 90px;
   }
   .gravatar {
     float: left;

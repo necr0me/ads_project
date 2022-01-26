@@ -1,12 +1,17 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="col-md-4">
+  <aside class="col-md-3">
     <section class="user_info">
       <h1>
         <%= gravatar_for @user %>
         <%= @user.name %>
       </h1>
     </section>
+    <% if current_user?(@user) %>
+    <section class="ad_form">
+      <%= button_to "Create Ad", new_ad_path, method: :get, class: "btn btn-primary", style: "justify-content: center"%>
+    </section>
+      <% end %>
   </aside>
   <div class="col-md-8">
     <% if @user.ads.any? %>

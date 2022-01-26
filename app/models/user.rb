@@ -69,7 +69,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    Ad.where("user_id = ?", id)
+    Ad.all
   end
 
   private

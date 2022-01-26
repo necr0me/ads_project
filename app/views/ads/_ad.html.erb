@@ -1,18 +1,28 @@
 <li id="ad-<%= ad.id %>">
-  <%= link_to gravatar_for(ad.user), ad.user %>
-  <span class="user"><%= link_to ad.user.name, ad.user %></span>
-  <span class="content"><%= ad.name %></span>
-  <span class="content"><%= ad.content %></span>
-  <span>
-  <% ad.pictures.each do |pic| %>
-    <%= image_tag pic.thumb.url %>
+  <div style="display: flex;">
+
+    <div style="margin-right: 10px;"><% if ad.pictures.any?%>
+        <%= image_tag ad.pictures.first.mini_pic.url %>
+      <% else %>
+        <%= image_tag("no_photo.png", alt: "no photo", size: "200x200") %>
+      <%end %></div>
+
+
+    <div style="display: flex; flex-direction: column;">
+      <h3 class="content"><%= ad.name %></h3>
+      <span class="content"><%= ad.content %></span>
+      <span class="timestamp">
+    Posted <%= time_ago_in_words(ad.created_at) %> ago
+    by <span class="user"><%= link_to ad.user.name, ad.user %></span>
+  </span>
+    </div>
+
+
+  </div><div style="float: right; margin-left: auto;"><% if current_user?(ad.user) %>
+    <%= button_to "Delete", ad, method: :delete,
+                  data: { confirm: "You sure?" }, class: "btn btn-danger"%>
   <% end %>
-  </span>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(ad.created_at) %> ago.
-    <% if current_user?(ad.user) %>
-      <%= link_to "delete", ad, method: :delete,
-                  data: { confirm: "You sure?" } %>
-    <% end %>
-  </span>
+
+</div>
+  <%= button_to "Send to moderation", ad, method: :patch, params: {ad: {status: :moderating}}, class: "btn btn-primary", style:"margin-left: 10px; margin-top: 10px;"%>
 </li>
