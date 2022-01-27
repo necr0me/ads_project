@@ -172,6 +172,10 @@ input {
   height: auto !important;
 }
 
+.btn
+{
+  width: 140px;
+}
 
 .btn-primary
 {
@@ -309,4 +313,24 @@ span.picture {
   &:before {
     content: "×";
   }
+}
+
+#status{
+  font-size: 18px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.moderating {
+  color: #d58512;
+}
+
+.denied
+{
+  color: #9C0000;
+}
+
+.accepted
+{
+  color: #3c763d;
 }

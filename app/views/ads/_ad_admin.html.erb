@@ -16,5 +16,10 @@
     by <span class="user"><%= link_to ad.user.name, ad.user %></span>
   </span>
     </div>
+
+</div>
+  <div>
+      <%= button_to "Accept", ad, method: :patch, params: {ad: {status: :accepted}}, class: "btn btn-primary", style:"margin-left: 10px; margin-top: 10px;"%>
+      <%= button_to "Decline", ad, method: :patch, params: {ad: {status: :denied}}, class: "btn btn-danger", style:"margin-left: 10px; margin-top: 10px;"%>
   </div>
 </li>

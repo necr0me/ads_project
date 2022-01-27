@@ -8,7 +8,4 @@ module ApplicationHelper
     end
   end
 
-  def admin_user
-
-  end
 end

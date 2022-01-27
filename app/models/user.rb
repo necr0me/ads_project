@@ -69,7 +69,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    Ad.all
+    Ad.where(status: :accepted)
   end
 
   private

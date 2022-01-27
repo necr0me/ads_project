@@ -1,0 +1,15 @@
+<% provide(:title, 'Ads to check') %>
+<h1>Ads to handle</h1>
+
+<%= will_paginate %>
+
+<ul class="ads">
+  <% if !@ads.any? %>
+    <div>There is nothing to handle.</div>
+  <% end %>
+  <% @ads.each do |ad| %>
+    <%= render partial: "ad_admin", locals: { ad: ad} %>
+  <% end %>
+</ul>
+
+<%= will_paginate %>

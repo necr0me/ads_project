@@ -1,6 +1,10 @@
 class AdsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy]
-  before_action :correct_user,   only: :destroy
+  before_action :logged_in_user, only: [:update, :create, :destroy]
+  before_action :correct_user,   only: [:destroy]
+
+  def index
+    @ads = Ad.where(status: :moderating).paginate(page: params[:page])
+  end
 
   def new
     @ad = Ad.new
@@ -11,10 +15,10 @@ class AdsController < ApplicationController
     @ad.status = :draft
     if @ad.save
       flash[:success] = "Ad created!"
-      redirect_to root_url
+      redirect_to request.referrer || root_url
     else
       puts @ad.errors.full_messages
-      render 'static_pages/home'
+      render request.referrer || root_url
     end
   end
 
@@ -24,13 +28,11 @@ class AdsController < ApplicationController
     redirect_to request.referrer || root_url
   end
 
-  def edit
-
-  end
 
   def update
     @ad = Ad.find(params[:id])
-    @ad.update(params[:ad])
+    @ad.update(ad_params)
+    redirect_to request.referrer
   end
 
   private

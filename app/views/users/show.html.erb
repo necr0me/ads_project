@@ -14,12 +14,11 @@
       <% end %>
   </aside>
   <div class="col-md-8">
-    <% if @user.ads.any? %>
       <h3>Ads (<%= @user.ads.count %>)</h3>
       <ol class="ads">
-        <%= render @ads %>
+        <% @user.ads.each do |ad| %>
+          <%= render partial: "ads/ad_profile", locals: {ad: ad} %>
+        <% end %>
       </ol>
-      <%= will_paginate @ads %>
-    <% end %>
   </div>
 </div>
