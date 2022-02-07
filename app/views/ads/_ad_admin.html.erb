@@ -5,7 +5,7 @@
         <%= image_tag ad.pictures.first.mini_pic.url %>
       <% else %>
         <%= image_tag("no_photo.png", alt: "no photo", size: "200x200") %>
-      <%end %></div>
+      <% end %></div>
 
 
     <div style="display: flex; flex-direction: column;">
@@ -15,11 +15,36 @@
     Posted <%= time_ago_in_words(ad.created_at) %> ago
     by <span class="user"><%= link_to ad.user.name, ad.user %></span>
   </span>
+      <%= form_for(ad) do |f| %>
+        <%=f.text_area :reason, placeholder: "Reason...", id: "reason_to_decline", style:"margin-top: 10px;"%>
     </div>
-
 </div>
   <div>
       <%= button_to "Accept", ad, method: :patch, params: {ad: {status: :accepted}}, class: "btn btn-primary", style:"margin-left: 10px; margin-top: 10px;"%>
-      <%= button_to "Decline", ad, method: :patch, params: {ad: {status: :denied}}, class: "btn btn-danger", style:"margin-left: 10px; margin-top: 10px;"%>
+      <button class="btn btn-danger" style="margin-left: 10px; margin-top: 10px;" id="decline_btn_0">Decline</button>
+      <%= button_to "Decline", ad, method: :patch, params: {ad: {status: :denied, reason: :reason}}, class: "btn btn-danger", style:"margin-left: 10px; margin-top: 10px;", id:"decline_btn_1"%>
   </div>
+    <% end %>
 </li>
+
+<script>
+  function getReasonValue()
+  {
+      return document.getElementById('reason_to_decline').value;
+  }
+
+    window.onload = function(){
+      const reason_to_decline = document.getElementById('reason_to_decline');
+      const decline_btn_0 = document.getElementById('decline_btn_0');
+      const decline_btn_1 = document.getElementById('decline_btn_1');
+
+
+      reason_to_decline.style.display = 'none';
+      decline_btn_1.style.display = 'none';
+
+      decline_btn_0.addEventListener('click', ()=>{
+          decline_btn_0.style.display = 'none';
+          reason_to_decline.style.display = 'inline-block';
+          decline_btn_1.style.display = 'inline-block';
+  });}
+</script>

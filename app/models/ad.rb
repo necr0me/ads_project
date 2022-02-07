@@ -5,4 +5,5 @@ class Ad < ApplicationRecord
   mount_uploaders :pictures, PictureUploader
   validates :user_id, presence: true
   validates :content, presence: true, length: { maximum: 140 }
+  validates :reason, length: {maximum: 140}
 end

@@ -1,6 +1,6 @@
 class AdsController < ApplicationController
   before_action :logged_in_user, only: [:update, :create, :destroy]
-  before_action :correct_user,   only: [:destroy]
+  before_action :correct_user,   only: [:destroy, :update]
 
   def index
     @ads = Ad.where(status: :moderating).paginate(page: params[:page])
@@ -30,6 +30,7 @@ class AdsController < ApplicationController
 
 
   def update
+    puts ad_params
     @ad = Ad.find(params[:id])
     @ad.update(ad_params)
     redirect_to request.referrer
@@ -38,12 +39,12 @@ class AdsController < ApplicationController
   private
 
     def ad_params
-      params.require(:ad).permit(:name, :status, :content, pictures: [])
+      params.require(:ad).permit(:name, :status, :content, :reason, pictures: [])
     end
 
     def correct_user
       @ad = current_user.ads.find_by(id: params[:id])
-      redirect_to root_url if @ad.nil?
+      redirect_to root_url if @ad.nil? && !current_user.admin?
     end
 
 end
