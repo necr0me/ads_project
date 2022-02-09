@@ -49,6 +49,13 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+  def delete_all_ads
+    @user = User.find(params[:user_id])
+    @user.ads.destroy_all
+    flash[:success] = "You have deleted all ads."
+    redirect_to @user
+  end
+
   private
 
   def user_params

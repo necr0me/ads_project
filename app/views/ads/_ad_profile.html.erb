@@ -27,7 +27,13 @@
     <% if ad.status == 'draft' %>
       <%= button_to "Send to moderation", ad, method: :patch, params: {ad: {status: :moderating}}, class: "btn btn-primary", style:"margin-left: 10px; margin-top: 10px; width:170px;"%>
     <% else  %>
-      <div id="status" class="<%=ad.status%>"><%= ad.status.capitalize %></div>
+      <div id="status" class="<%=ad.status%>">
+        <% if ad.status == "denied"%>
+          <%= ad.status.capitalize + ": " + ad.reason %>
+          <% else %>
+          <%= ad.status.capitalize%>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </li>

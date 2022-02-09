@@ -30,7 +30,6 @@ class AdsController < ApplicationController
 
 
   def update
-    puts ad_params
     @ad = Ad.find(params[:id])
     @ad.update(ad_params)
     redirect_to request.referrer
@@ -46,5 +45,4 @@ class AdsController < ApplicationController
       @ad = current_user.ads.find_by(id: params[:id])
       redirect_to root_url if @ad.nil? && !current_user.admin?
     end
-
 end
