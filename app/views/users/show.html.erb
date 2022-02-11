@@ -4,15 +4,21 @@
     <section class="user_info">
       <h1>
         <%= gravatar_for @user %>
-        <%= @user.name %>
+        <%= @user.name%>
+        <% if @user.admin? %>
+          <%= "(admin)"%>
+        <% end %>
       </h1>
     </section>
     <% if current_user?(@user) %>
     <section class="ad_form">
       <% if @user.ads.count > 0 %>
-        <%= button_to "Delete all ads", user_delete_all_ads_path(@user.id), method: :delete, class: "btn btn-danger", style: "justify-content: center;", data: {confirm: "Are you sure?"}%>
+        <%= button_to "Delete all ads", user_delete_all_ads_path(@user.id), method: :delete, class: "btn btn-danger", style: "width: 170px;", data: {confirm: "Are you sure?"}%>
       <% end %>
-      <%= button_to "Create Ad", new_ad_path, method: :get, class: "btn btn-primary", style: "justify-content: center;margin-top: 10px;"%>
+      <%= button_to "Create ad", new_ad_path, method: :get, class: "btn btn-primary", style: "margin-top: 10px;width: 170px;"%>
+      <% if @user.admin? %>
+        <%= button_to "Create tag", new_tag_path, method: :get, class: "btn btn-info", style: "margin-top: 10px;width: 170px;"%>
+      <% end %>
     </section>
       <% end %>
   </aside>

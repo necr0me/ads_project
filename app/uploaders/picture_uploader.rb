@@ -15,6 +15,10 @@ class PictureUploader < CarrierWave::Uploader::Base
   version :mini_pic do
     process :resize_to_fit => [200,200]
   end
+  version :pic do
+    process :resize_to_fit => [350, 350]
+  end
+
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

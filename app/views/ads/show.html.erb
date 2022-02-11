@@ -1,0 +1,49 @@
+<% provide(:title, @ad.name) %>
+<div style="display: flex">
+  <div style="margin-right: 1vw;"><% if @ad.pictures.any?%>
+      <%= image_tag @ad.pictures.first.url, style: "height: 50vh; width: auto;" %>
+    <% else %>
+      <%= image_tag("no_photo.png", alt: "no photo", size: "350x350") %>
+    <%end %>
+  </div>
+  <div>
+    <div style="margin-top: 10px; font-size: 38px;"><%= @ad.name %></div>
+    <div style="font-size: 18px;"> Description</div>
+    <div class="content"><%= @ad.content %></div>
+    <% if current_user?(User.find(@ad.user.id)) %>
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+        Add tags...
+      </button>
+    <% end %>
+  </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="vertical-menu">
+          <% Tag.all.to_a.each do |tag|%>
+            <a onclick="chooseTag(this.textContent)"><%=tag.name %></a>
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="tags_add_sumbit">Add tag</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function chooseTag(value)
+  {
+      alert(value);
+  }
+</script>
