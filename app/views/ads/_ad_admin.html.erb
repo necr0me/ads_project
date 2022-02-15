@@ -18,9 +18,9 @@
       <%= form_for(ad) do |f| %>
         <%=f.text_area :reason, placeholder: "Reason...", id: "reason_to_decline", style:"margin-top: 10px;"%>
         <%= button_tag "Accept", type: "submit",  class: "btn btn-primary", name: "ad[status]", value: :accepted, style: "margin-left: 10px; margin-top: 10px;", :onclick => "clearReason()"%>
-        <%= button_tag "Decline", type: "submit",  class: "btn btn-danger", name: "ad[status]", value: :denied, style: "margin-left: 10px; margin-top: 10px;", id: "decline_btn_1"%>
+        <%= button_tag "Decline", type: "submit",  class: "btn btn-danger", name: "ad[status]", value: :denied, style: "margin-left: 10px; margin-top: 10px;", id: "decline_btn_after_reason"%>
       <% end %>
-      <button class="btn btn-danger" style="margin-left: 10px; margin-top: 10px;" id="decline_btn_0">Decline</button>
+      <button class="btn btn-danger" style="margin-left: 10px; margin-top: 10px;" id="decline_btn_before_reason">Decline</button>
     </div>
 </div>
 </li>
@@ -34,16 +34,16 @@
 
     window.onload = function(){
       const reason_to_decline = document.getElementById('reason_to_decline');
-      const decline_btn_0 = document.getElementById('decline_btn_0');
-      const decline_btn_1 = document.getElementById('decline_btn_1');
+      const decline_btn_before_reason = document.getElementById('decline_btn_before_reason');
+      const decline_btn_after_reason = document.getElementById('decline_btn_after_reason');
 
 
       reason_to_decline.style.display = 'none';
-      decline_btn_1.style.display = 'none';
+      decline_btn_after_reason.style.display = 'none';
 
-      decline_btn_0.addEventListener('click', ()=>{
-          decline_btn_0.style.display = 'none';
+      decline_btn_before_reason.addEventListener('click', ()=>{
+          decline_btn_before_reason.style.display = 'none';
           reason_to_decline.style.display = 'inline-block';
-          decline_btn_1.style.display = 'inline-block';
+          decline_btn_after_reason.style.display = 'inline-block';
   });}
 </script>

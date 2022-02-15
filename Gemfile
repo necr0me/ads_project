@@ -8,9 +8,8 @@ gem "rails", "~> 7.0.0.rc1"
 gem "faker"
 
 gem "carrierwave"
-gem "rmagick"
 gem "mini_magick"
-
+gem "rmagick", :require => "rmagick"
 
 # Pagination
 gem 'will_paginate'

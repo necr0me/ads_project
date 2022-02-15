@@ -5,6 +5,6 @@ class Ad < ApplicationRecord
   default_scope -> { order(created_at: :desc) }
   mount_uploaders :pictures, PictureUploader
   validates :user_id, presence: true
-  validates :content, presence: true, length: { maximum: 140 }
+  validates :content, presence: true, length: { maximum: 340 }
   validates :reason, length: {maximum: 140}
 end

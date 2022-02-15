@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2022_02_10_085102) do
   create_table "ads_tags", id: false, force: :cascade do |t|
     t.bigint "ad_id", null: false
     t.bigint "tag_id", null: false
-    t.index ["ad_id", "tag_id"], name: "index_ads_tags_on_ad_id_and_tag_id"
+    t.index ["ad_id", "tag_id"], name: "index_ads_tags_on_ad_id_and_tag_id", unique: true
   end
 
   create_table "tags", force: :cascade do |t|

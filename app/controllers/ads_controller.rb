@@ -31,18 +31,30 @@ class AdsController < ApplicationController
 
   def show
     @ad = Ad.find(params[:id])
+    @user = @ad.user
+    @tags = Tag.where.not(id: @ad.tags)
   end
 
 
   def update
-    @ad.update(ad_params)
-    redirect_to request.referrer
+    @ad = Ad.find(params[:id])
+    if params[:ad][:tags]
+      params[:ad][:tags].each do |tag|
+        new_tag = Tag.find_by(name: tag)
+        puts tag
+        @ad.tags << new_tag
+      end
+    else
+      @ad.update(ad_params)
+      redirect_to request.referrer
+    end
   end
+
 
   private
 
     def ad_params
-      params.require(:ad).permit(:name, :status, :content, :reason, pictures: [])
+      params.require(:ad).permit(:name, :status, :content, :reason, pictures: [], tags: [])
     end
 
     def correct_user
