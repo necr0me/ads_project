@@ -32,17 +32,24 @@ class AdsController < ApplicationController
   def show
     @ad = Ad.find(params[:id])
     @user = @ad.user
-    @tags = Tag.where.not(id: @ad.tags)
+    @tags = Tag.all
+    #@tags = Tag.where.not(id: @ad.tags)
   end
 
 
   def update
     @ad = Ad.find(params[:id])
     if params[:ad][:tags]
+      tags_to_update = []
       params[:ad][:tags].each do |tag|
         new_tag = Tag.find_by(name: tag)
         puts tag
-        @ad.tags << new_tag
+        tags_to_update<<new_tag
+      end
+      @ad.tags = tags_to_update
+
+      respond_to do |format|
+        format.js
       end
     else
       @ad.update(ad_params)

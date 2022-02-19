@@ -1,5 +1,5 @@
 <li id="ad-<%= ad.id %>">
-  <div style="display: flex;">
+  <div style="display: flex; position: relative;">
 
     <div style="margin-right: 10px;"><% if ad.pictures.any?%>
         <%= image_tag ad.pictures.first.mini_pic.url %>
@@ -16,6 +16,11 @@
     Posted <%= time_ago_in_words(ad.created_at) %> ago
     by <span class="user"><%= link_to ad.user.name, ad.user %></span>
   </span>
+      <div class="tags" style="position: absolute; bottom: 0;">
+        <% ad.tags.each do |tag| %>
+          <a><%= tag.name %></a>
+        <% end %>
+      </div>
     </div>
   </div>
 </li>

@@ -1,25 +1,34 @@
 <% provide(:title, @ad.name) %>
-<div style="display: flex">
+<div style="display: flex; position: relative;">
+
   <div style="margin-right: 1vw;"><% if @ad.pictures.any?%>
-      <%= image_tag @ad.pictures.first.url, style: "height: 50vh; width: auto;" %>
+      <%= image_tag @ad.pictures.first.url, style: "height: auto; width: 350px;" %>
     <% else %>
       <%= image_tag("no_photo.png", alt: "no photo", size: "350x350") %>
     <%end %>
   </div>
+
   <div>
     <div style="margin-top: 10px; font-size: 38px;"><%= @ad.name %></div>
     <div style="font-size: 18px;"> Description</div>
     <div class="content"><%= @ad.content %></div>
     <% if current_user?(@user) %>
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-        Add tags...
-      </button>
+      <div style="position: static">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit_tags_modal" onclick="showTags()" style="margin-bottom: 10px; margin-top: 10px;">
+          Edit tags...
+        </button>
+      </div>
     <% end %>
+    <div class="tags">
+      <% @ad.tags.each do |tag| %>
+        <a><%= tag.name %></a>
+      <% end %>
+    </div>
   </div>
 
 </div>
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit_tags_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -28,41 +37,64 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="vertical-menu">
-          <% @tags.each do |tag|%>
-            <a id="tag-<%=tag.id%>" onclick="addTag(this.textContent, this.id)"><%=tag.name %></a>
-          <% end %>
+        <div style="display: grid; grid-auto-flow: column;">
+            <div class="vertical-menu" style="width: 100%;">
+              <% @tags.each do |tag|%>
+                <a class="tags_to_choose" id="tag-<%=tag.id%>" onclick="tagClick(this.textContent, this.id)" data-chosen="<%= @ad.tags.include?(tag) ? true : false%>"><%=tag.name %></a>
+              <% end %>
+            </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancelHide()">Close</button>
-        <button type="button" class="btn btn-primary" id="tags_add_sumbit">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="tags_add_sumbit">Confirm</button>
       </div>
     </div>
   </div>
 </div>
+
+
 <script>
   const tagsToAdd = [];
-  const hiddenLinkIds = [];
 
-  function addTag(value, id)
+  function showTags()
   {
-      const link = document.getElementById(id);
-      link.style.display = 'none';
-      hiddenLinkIds.push(id);
-      tagsToAdd.push(value);
-      alert(tagsToAdd.join(", "));
-  }
-
-  function cancelHide()
-  {
-      for (var i = 0; i<hiddenLinkIds.length;i++)
+      tagsToAdd.length = 0;
+      var tags = document.getElementsByClassName("tags_to_choose");
+      for (var i = 0; i<tags.length; i++)
       {
-          const hiddenLink = document.getElementById(hiddenLinkIds[i]);
-          hiddenLink.style.display='flex';
-          tagsToAdd.length = 0;
+          var tag = tags.item(i);
+          if (tag.dataset.chosen == 'true')
+          {
+              tag.style.backgroundColor = 'cornflowerBlue';
+              tag.style.color = 'white';
+              tagsToAdd.push(tag.textContent);
+          }
       }
   }
+
+  function tagClick(value, id)
+  {
+      const tag = document.getElementById(id);
+      if(tag.dataset.chosen == 'true')
+      {
+          var index = tagsToAdd.indexOf(value);
+          if (index !== -1) {
+              tagsToAdd.splice(index, 1);
+          }
+          tag.style.backgroundColor = "#eee";
+          tag.style.color = 'black';
+          tag.dataset.chosen = 'false';
+      }
+      else
+      {
+          tagsToAdd.push(value);
+          tag.style.backgroundColor = 'cornflowerBlue';
+          tag.style.color = 'white';
+          tag.dataset.chosen = 'true';
+      }
+  }
+
 
   $(function (){
       $("#tags_add_sumbit").on("click", function() {
