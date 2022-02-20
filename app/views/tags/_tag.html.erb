@@ -1,0 +1,18 @@
+<tr id="tag-<%= tag.id %>">
+  <th scope="row"><%=tag.id %></th>
+  <td> <%= tag.name%></td>
+  <td>
+    <% if tag.ads.count == 0 %>
+      <button data-tagid="<%= tag.id %>" type="button" class="btn btn-outline-danger delete_tag_btn">
+        <i data-tagid="<%= tag.id %>" class="bi bi-trash-fill"></i>
+      </button>
+    <% else %>
+        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+              title="You can't delete tags that have ads with it." data-placement="right" data-delay='{"show":"250", "hide":"250"}'>
+      <button  type="button" class="btn btn-outline-danger" disabled>
+        <i class="bi bi-trash-fill"></i>
+      </button>
+    </span>
+    <%end %>
+  </td>
+</tr>

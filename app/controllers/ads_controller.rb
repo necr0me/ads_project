@@ -33,24 +33,26 @@ class AdsController < ApplicationController
     @ad = Ad.find(params[:id])
     @user = @ad.user
     @tags = Tag.all
-    #@tags = Tag.where.not(id: @ad.tags)
   end
 
 
   def update
+    puts params
     @ad = Ad.find(params[:id])
-    if params[:ad][:tags]
+    if params.has_key?(:ad_action) && params[:ad_action].eql?('tags_update') # if updating tags
       tags_to_update = []
-      params[:ad][:tags].each do |tag|
-        new_tag = Tag.find_by(name: tag)
-        puts tag
-        tags_to_update<<new_tag
+      if params.has_key?(:ad)
+        params[:ad][:tags].each do |tag|
+          new_tag = Tag.find_by(name: tag)
+          tags_to_update<<new_tag
+        end
       end
       @ad.tags = tags_to_update
 
       respond_to do |format|
         format.js
       end
+
     else
       @ad.update(ad_params)
       redirect_to request.referrer

@@ -1,20 +1,29 @@
 class TagsController < ApplicationController
-  before_action :admin_user ,only: [:new, :create, :destroy]
+  before_action :admin_user ,only: [:create, :destroy, :index]
 
-  def new
-    @tag = Tag.new
-  end
 
   def create
+    puts params
     @tag = Tag.new(tag_params)
-    if @tag.save
-      flash[:success] = "You have created a new tag."
-      redirect_to new_tag_path
-    else
-      render 'new'
+    @tag.save
+    respond_to do |format|
+      format.js
     end
   end
 
+  def index
+    @tags = Tag.all.paginate(page: params[:page], per_page: 10)
+  end
+
+  def destroy
+    puts params
+    @tag = Tag.find(params[:id])
+    @id = params[:id]
+    @tag.destroy
+    respond_to do |format|
+      format.js
+    end
+  end
 
   private
 

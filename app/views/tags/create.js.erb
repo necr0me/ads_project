@@ -1,0 +1,8 @@
+var modal_body = document.getElementById("tag_creation_message");
+<% if @tag.errors.any? %>
+  modal_body.innerHTML = '<%= escape_javascript( render 'shared/error_messages', object: @tag )%>';
+<% else %>
+  modal_body.innerHTML = '<div class="alert alert-success" role="alert">Tag was successfully created!</div';
+  document.querySelector("#tag_name_input").value="";
+  document.querySelector("tbody").insertAdjacentHTML("beforeend", '<%= escape_javascript(render @tag) %>');
+<% end %>

@@ -17,7 +17,7 @@
       <% end %>
       <%= button_to "Create ad", new_ad_path, method: :get, class: "btn btn-primary", style: "margin-top: 10px;width: 170px;"%>
       <% if @user.admin? %>
-        <%= button_to "Create tag", new_tag_path, method: :get, class: "btn btn-info", style: "margin-top: 10px;width: 170px;"%>
+        <%= button_to "Tags", tags_path, method: :get, class: "btn btn-info", style: "margin-top: 10px;width: 170px;"%>
       <% end %>
     </section>
       <% end %>
@@ -25,9 +25,10 @@
   <div class="col-md-8">
       <h3>Ads (<%= @user.ads.count %>)</h3>
       <ol class="ads">
-        <% @user.ads.each do |ad| %>
+        <% @ads.each do |ad| %>
           <%= render partial: "ads/ad_profile", locals: {ad: ad} %>
         <% end %>
+        <%= will_paginate @ads %>
       </ol>
   </div>
 </div>
