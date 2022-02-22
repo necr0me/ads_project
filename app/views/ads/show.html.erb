@@ -37,12 +37,16 @@
         </button>
       </div>
       <div class="modal-body">
+        <label>Search for tags: </label>
+        <input type="text" id="tag-search-input" onkeyup="inputKeyUp()" placeholder="Search...">
+
+        <label>Tags:</label>
         <div style="display: grid; grid-auto-flow: column;">
-            <div class="vertical-menu" style="width: 100%;">
+            <ul id="tag-ul" class="vertical-menu" style="width: 100%;">
               <% @tags.each do |tag|%>
-                <a class="tags_to_choose" id="tag-<%=tag.id%>" onclick="tagClick(this.textContent, this.id)" data-chosen="<%= @ad.tags.include?(tag) ? true : false%>"><%=tag.name %></a>
+                <li><a class="tags_to_choose" id="tag-<%=tag.id%>" onclick="tagClick(this.textContent, this.id)" data-chosen="<%= @ad.tags.include?(tag) ? true : false%>"><%=tag.name %></a></li>
               <% end %>
-            </div>
+            </ul>
         </div>
       </div>
       <div class="modal-footer">
@@ -56,6 +60,26 @@
 
 <script>
   const tagsToAdd = [];
+
+  function inputKeyUp()
+  {
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById('tag-search-input');
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("tag-ul");
+      li = ul.getElementsByTagName('li');
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 0; i < li.length; i++) {
+          a = li[i].getElementsByTagName("a")[0];
+          txtValue = a.textContent || a.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+          } else {
+              li[i].style.display = "none";
+          }
+      }
+  }
 
   function showTags()
   {

@@ -32,3 +32,4 @@ users = User.order(:created_at).take(6)
  content = Faker::ChuckNorris.fact
  users.each {|user| user.ads.create!(name: name, content: content, status: :draft)}
 end
+
