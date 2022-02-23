@@ -14,10 +14,13 @@ Rails.application.routes.draw do
   resources :users do
     delete 'delete_all_ads'
   end
+  resources :ads do
+    patch 'update_status'
+    patch 'update_tags'
+  end
   #resources :sessions, only: [:new, :create, :destroy]
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
-  resources :ads
   resources :tags
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

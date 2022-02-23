@@ -125,8 +125,8 @@
         $.ajax(
             {
                 method: 'PATCH',
-                url: '/ads/'+<%=@ad.id %>,
-                data: { "authenticity_token": "<%= form_authenticity_token %>", ad: {tags: tagsToAdd}, ad_action: 'tags_update'}
+                url: '/ads/' + <%=@ad.id %> + '/update_tags',
+                data: { "authenticity_token": "<%= form_authenticity_token %>", ad: {tags: tagsToAdd}}
             }
         )
       });

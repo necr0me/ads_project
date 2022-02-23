@@ -23,10 +23,10 @@
       <% end %>
   </aside>
   <div class="col-md-8">
-      <h3>Ads (<%= @user.ads.count %>)</h3>
+      <h3 id="ads-count">Ads (<%= @user.ads.count %>)</h3>
       <ol class="ads">
         <% @ads.each do |ad| %>
-          <%= render partial: "ads/ad_profile", locals: {ad: ad} %>
+          <%= render partial: "ads/partials/ad_profile", locals: {ad: ad} %>
         <% end %>
         <%= will_paginate @ads %>
       </ol>

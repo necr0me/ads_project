@@ -1,2 +1,5 @@
-var tags = document.querySelector(".tags");
-tags.innerHTML = "<% @ad.tags.each do |tag| %><a><%= tag.name %></a><% end %>"
+var ad = document.querySelector("#ad-<%= @ad.id %>")
+$('#declineReason').modal('hide');
+$('body').removeClass('modal-open');
+$('.modal-backdrop').remove();
+ad.outerHTML = ''

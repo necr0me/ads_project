@@ -1,0 +1,2 @@
+var ad = document.querySelector("#ad-<%= @ad.id %>")
+ad.outerHTML = '<%= escape_javascript(render "ads/partials/ad_profile", ad: @ad)%>'

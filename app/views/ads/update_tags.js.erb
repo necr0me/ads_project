@@ -1,0 +1,2 @@
+var tags = document.querySelector(".tags");
+tags.innerHTML = "<% @ad.tags.each do |tag| %><a><%= tag.name %></a><% end %>"

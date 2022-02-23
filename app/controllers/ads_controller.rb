@@ -24,9 +24,12 @@ class AdsController < ApplicationController
   end
 
   def destroy
+    @id = @ad.id.dup
     @ad.destroy
-    flash[:success] = "Ad deleted"
-    redirect_to request.referrer || root_url
+    @count = current_user.ads.count
+    respond_to do |format|
+      format.js
+    end
   end
 
   def show
@@ -35,27 +38,37 @@ class AdsController < ApplicationController
     @tags = Tag.all
   end
 
-
   def update
     puts params
     @ad = Ad.find(params[:id])
-    if params.has_key?(:ad_action) && params[:ad_action].eql?('tags_update') # if updating tags
-      tags_to_update = []
-      if params.has_key?(:ad)
-        params[:ad][:tags].each do |tag|
-          new_tag = Tag.find_by(name: tag)
-          tags_to_update<<new_tag
-        end
-      end
-      @ad.tags = tags_to_update
+    @ad.update(ad_params)
+    respond_to do |format|
+      format.js
+    end
+  end
 
-      respond_to do |format|
-        format.js
+  def update_tags
+    puts params
+    @ad = Ad.find(params[:ad_id])
+    tags_to_update = []
+    if params.has_key?(:ad)
+      params[:ad][:tags].each do |tag|
+        new_tag = Tag.find_by(name: tag)
+        tags_to_update<<new_tag
       end
+    end
+    @ad.tags = tags_to_update
+    respond_to do |format|
+      format.js
+    end
+  end
 
-    else
-      @ad.update(ad_params)
-      redirect_to request.referrer
+  def update_status
+    puts params
+    @ad = Ad.find(params[:ad_id])
+    @ad.update(ad_params)
+    respond_to do |format|
+      format.js
     end
   end
 

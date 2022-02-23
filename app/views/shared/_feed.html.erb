@@ -1,6 +1,6 @@
 <% if !@feed_items.nil? %>
   <ol class="ads">
-    <%= render @feed_items %>
+    <%= render partial: "ads/partials/ad", collection: @feed_items %>
   </ol>
   <%= will_paginate @feed_items %>
 <% end %>

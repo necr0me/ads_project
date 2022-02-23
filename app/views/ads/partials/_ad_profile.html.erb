@@ -7,10 +7,8 @@
         <%= image_tag("no_photo.png", alt: "no photo", size: "200x200") %>
       <%end %>
     </div>
-
-
     <div style="display: flex; flex-direction: column;">
-      <% if current_user?(@user) %>
+      <% if current_user?(ad.user) %>
       <div style="position: absolute; top: 0px; right: 0px;">
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -18,10 +16,13 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li><a>Edit</a></li>
-            <li><a><%= button_to "Delete", ad, method: :delete,
+            <li><a><%= button_to "Delete", ad, method: :delete, remote: true,
                             data: { confirm: "You sure?" }, class: "link-button" %></a></li>
               <% if ad.status=='draft' %>
-              <li><a><%= button_to "Send to moderation", ad, method: :patch, params: {ad: {status: :moderating}}, class: "link-button"%></a></li>
+              <li><a>
+                  <%= button_to "Send to moderation", ad_update_status_path(ad.id), remote: true,
+                                method: :patch, params: {ad: { status: :moderating}}, class: "link-button" %>
+              </a></li>
               <% else %>
                 <li><a>Ad is <span class="<%= ad.status %>"><%= ad.status %></span></a></li>
               <% end %>

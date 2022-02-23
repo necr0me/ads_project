@@ -23,42 +23,17 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <%= form_for(:tag, remote: true) do |f| %>
       <div class="modal-body" id="modal-body">
         <div id="tag_creation_message"></div>
-        <label for="tag_name_input">Name</label>
-        <input id="tag_name_input" type="text" class="form-control">
+        <label>Name: </label>
+        <%= f.text_field :name, class: "form-control" %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="tag_add_submit">Add tag</button>
+        <%= f.submit "Create tag", class: "btn btn-success" %>
       </div>
+        <% end %>
     </div>
   </div>
 </div>
-
-<script>
-    $(function (){
-        $(".delete_tag_btn").on("click", function() {
-            $.ajax(
-                {
-                    method: 'DELETE',
-                    url: '/tags/'+window.event.target.dataset.tagid,
-                    data: { "authenticity_token": "<%= form_authenticity_token %>"}
-                }
-            )
-        });
-    });
-
-    $(function (){
-        $("#tag_add_submit").on("click", function() {
-            var tag_name = document.getElementById('tag_name_input').value;
-            $.ajax(
-                {
-                    method: 'POST',
-                    url: '/tags',
-                    data: { "authenticity_token": "<%= form_authenticity_token %>", tag: {name: tag_name}}
-                }
-            )
-        });
-    });
-</script>

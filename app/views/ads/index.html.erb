@@ -8,7 +8,7 @@
     <div>There is nothing to handle.</div>
   <% end %>
   <% @ads.each do |ad| %>
-    <%= render partial: "ad_admin", locals: { ad: ad} %>
+    <%= render partial: "ads/partials/ad_admin", locals: { ad: ad} %>
   <% end %>
 </ul>
 
