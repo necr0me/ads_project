@@ -23,6 +23,12 @@ class AdsController < ApplicationController
     end
   end
 
+  def edit
+    @ad = Ad.find(params[:id])
+    @tags = Tag.all
+  end
+
+
   def destroy
     @id = @ad.id.dup
     @ad.destroy
@@ -41,9 +47,19 @@ class AdsController < ApplicationController
   def update
     puts params
     @ad = Ad.find(params[:id])
-    @ad.update(ad_params)
-    respond_to do |format|
-      format.js
+    if params[:ad].has_key?(:name)
+      @ad.update(ad_params)
+      redirect_to @ad.user
+    else
+      @ad.ad_logs.create(from: @ad.status,
+                        to:params[:ad][:status],
+                        by_user_id: @ad.user.id,
+                        reason: params[:ad][:reason],
+                        ad: @ad)
+      @ad.update(ad_params)
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
@@ -66,6 +82,11 @@ class AdsController < ApplicationController
   def update_status
     puts params
     @ad = Ad.find(params[:ad_id])
+    @ad.ad_logs.create(from: @ad.status,
+                       to:params[:ad][:status],
+                       by_user_id: @ad.user.id,
+                       reason: params[:ad][:reason],
+                       ad: @ad)
     @ad.update(ad_params)
     respond_to do |format|
       format.js
@@ -76,7 +97,7 @@ class AdsController < ApplicationController
   private
 
     def ad_params
-      params.require(:ad).permit(:name, :status, :content, :reason, pictures: [], tags: [])
+      params.require(:ad).permit(:name, :status, :content, :reason, pictures: [], tags: [], ad_logs: [])
     end
 
     def correct_user

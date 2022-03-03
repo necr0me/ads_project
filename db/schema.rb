@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_10_085102) do
+ActiveRecord::Schema.define(version: 2022_03_03_094825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ad_logs", force: :cascade do |t|
+    t.integer "from"
+    t.integer "to"
+    t.integer "by_user_id"
+    t.string "reason"
+    t.bigint "ad_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ad_id", "created_at"], name: "index_ad_logs_on_ad_id_and_created_at"
+    t.index ["ad_id"], name: "index_ad_logs_on_ad_id"
+  end
 
   create_table "ads", force: :cascade do |t|
     t.string "name"
@@ -56,5 +68,6 @@ ActiveRecord::Schema.define(version: 2022_02_10_085102) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "ad_logs", "ads"
   add_foreign_key "ads", "users"
 end

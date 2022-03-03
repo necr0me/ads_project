@@ -32,7 +32,7 @@
 
           <div class="modal-body">
             <label>Reason for decline:</label>
-            <%=f.text_area :reason, placeholder: "Enter here...", id: "reason_to_decline", class: "form-control", style:"margin-top: 10px;"%>
+            <%=f.text_area :reason, placeholder: "Enter here...", id: "reason_to_decline", class: "form-control", style:"margin-top: 10px;", required: true%>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

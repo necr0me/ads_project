@@ -15,7 +15,7 @@
             Actions <b class="caret"></b>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a>Edit</a></li>
+            <li><a><%= button_to "Edit", edit_ad_path(ad), method: :get, class: "link-button" %></a></li>
             <li><a><%= button_to "Delete", ad, method: :delete, remote: true,
                             data: { confirm: "You sure?" }, class: "link-button" %></a></li>
               <% if ad.status=='draft' %>

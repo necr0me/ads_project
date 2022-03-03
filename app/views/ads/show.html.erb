@@ -12,123 +12,48 @@
     <div style="margin-top: 10px; font-size: 38px;"><%= @ad.name %></div>
     <div style="font-size: 18px;"> Description</div>
     <div class="content"><%= @ad.content %></div>
-    <% if current_user?(@user) %>
-      <div style="position: static">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit_tags_modal" onclick="showTags()" style="margin-bottom: 10px; margin-top: 10px;">
-          Edit tags...
-        </button>
-      </div>
-    <% end %>
     <div class="tags">
       <% @ad.tags.each do |tag| %>
         <a><%= tag.name %></a>
       <% end %>
     </div>
+    <span class="timestamp">
+    Posted <%= time_ago_in_words(@ad.created_at) %> ago
+    by <span class="user"><%= link_to @ad.user.name, @ad.user %></span>
+    </span>
+    <span><% if current_user.admin? %>
+<div class="card">
+  <div class="card-header" id="headingTwo">
+    <h5 class="mb-0">
+      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseLogs" aria-expanded="false" aria-controls="collapseTwo">
+        Logs...
+      </button>
+    </h5>
   </div>
-
-</div>
-<!-- Modal -->
-<div class="modal fade" id="edit_tags_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cancelHide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <label>Search for tags: </label>
-        <input type="text" id="tag-search-input" onkeyup="inputKeyUp()" placeholder="Search...">
-
-        <label>Tags:</label>
-        <div style="display: grid; grid-auto-flow: column;">
-            <ul id="tag-ul" class="vertical-menu" style="width: 100%;">
-              <% @tags.each do |tag|%>
-                <li><a class="tags_to_choose" id="tag-<%=tag.id%>" onclick="tagClick(this.textContent, this.id)" data-chosen="<%= @ad.tags.include?(tag) ? true : false%>"><%=tag.name %></a></li>
-              <% end %>
-            </ul>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="tags_add_sumbit">Confirm</button>
-      </div>
+  <div id="collapseLogs" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+    <div class="card-body">
+       <ul class="vertical-menu" style="width: 100%">
+         <% @ad.ad_logs.each do |log| %>
+           <li><a>Changed
+             from:
+             <span class="<%=log.from %>"><%=log.from %></span>
+             to:
+             <span class="<%=log.to%>"><%=log.to %></span>
+             at
+             <%=log.created_at %>.
+             <% if !log.reason.nil? %>
+              <br/>Reason: <span class="denied"><%= log.reason%></span>
+             <% end %>
+           </a>
+           </li>
+         <% end %>
+       </ul>
     </div>
   </div>
 </div>
+<% end %></span>
+  </div>
 
 
-<script>
-  const tagsToAdd = [];
+</div>
 
-  function inputKeyUp()
-  {
-      var input, filter, ul, li, a, i, txtValue;
-      input = document.getElementById('tag-search-input');
-      filter = input.value.toUpperCase();
-      ul = document.getElementById("tag-ul");
-      li = ul.getElementsByTagName('li');
-
-      // Loop through all list items, and hide those who don't match the search query
-      for (i = 0; i < li.length; i++) {
-          a = li[i].getElementsByTagName("a")[0];
-          txtValue = a.textContent || a.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              li[i].style.display = "";
-          } else {
-              li[i].style.display = "none";
-          }
-      }
-  }
-
-  function showTags()
-  {
-      tagsToAdd.length = 0;
-      var tags = document.getElementsByClassName("tags_to_choose");
-      for (var i = 0; i<tags.length; i++)
-      {
-          var tag = tags.item(i);
-          if (tag.dataset.chosen == 'true')
-          {
-              tag.style.backgroundColor = 'cornflowerBlue';
-              tag.style.color = 'white';
-              tagsToAdd.push(tag.textContent);
-          }
-      }
-  }
-
-  function tagClick(value, id)
-  {
-      const tag = document.getElementById(id);
-      if(tag.dataset.chosen == 'true')
-      {
-          var index = tagsToAdd.indexOf(value);
-          if (index !== -1) {
-              tagsToAdd.splice(index, 1);
-          }
-          tag.style.backgroundColor = "#eee";
-          tag.style.color = 'black';
-          tag.dataset.chosen = 'false';
-      }
-      else
-      {
-          tagsToAdd.push(value);
-          tag.style.backgroundColor = 'cornflowerBlue';
-          tag.style.color = 'white';
-          tag.dataset.chosen = 'true';
-      }
-  }
-
-
-  $(function (){
-      $("#tags_add_sumbit").on("click", function() {
-        $.ajax(
-            {
-                method: 'PATCH',
-                url: '/ads/' + <%=@ad.id %> + '/update_tags',
-                data: { "authenticity_token": "<%= form_authenticity_token %>", ad: {tags: tagsToAdd}}
-            }
-        )
-      });
-  });
-</script>
